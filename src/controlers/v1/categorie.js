@@ -66,7 +66,7 @@ class CategorieController {
 
     }
 
-    async delete(req, re) {
+    async delete(req, res) {
         const user = req.user;
         if(user.type > 1) {
             return res.status(403).json({ error: true, message: "Forbiden" });
