@@ -1,4 +1,4 @@
-const { Router, static } = require('express');
+const express = require('express');
 const { middelware, login } = require('./middleware');
 
 const UserController = require('../controlers/v1/user');
@@ -11,7 +11,7 @@ class Routes {
     productController = new ProductController();
 
     userRouteV1() {
-        const route = Router();
+        const route = express.Router();
 
         route.get('/', middelware, this.userController.index);
         route.post('/', this.userController.create);
@@ -24,7 +24,7 @@ class Routes {
     }
 
     categorieRouteV1() {
-        const route = Router();
+        const route = express.Router();
 
         route.get('/', this.categorieController.index);
         route.post('/', middelware, this.categorieController.create);
@@ -37,7 +37,7 @@ class Routes {
     }
 
     produitRouteV1() {
-        const route = Router();
+        const route = express.Router();
 
         route.get('/', this.productController.index);
         route.post('/', middelware, this.productController.create);
@@ -50,7 +50,7 @@ class Routes {
     }
 
     oauthRouteV1() {
-        const route = Router();
+        const route = express.Router();
 
         route.post('/password', login);
 
@@ -59,7 +59,7 @@ class Routes {
 
     routes(app) {
 
-        app.use('/img', static('assets'));
+        app.use('/img', express.static('assets'));
 
         //API V1
         app.use('/api/v1/oauth', this.oauthRouteV1());
