@@ -1,5 +1,3 @@
-const express = require('express');
-
 const Categorie = require('../../models/v1/categorie');
 
 class CategorieController {

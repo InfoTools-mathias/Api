@@ -1,5 +1,3 @@
-const express = require("express");
-
 const Product = require("../../models/v1/product");
 const { parseProduct, writeProductImage } = require('../../functions/utilsV1');
 

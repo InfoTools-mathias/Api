@@ -1,9 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 
-//const Product = require('../models/v1/product');
 const Categorie = require('../models/v1/categorie');
-
 const { prodBaseURL } = require('../../config.json');
 
 function parseCat(id) {
