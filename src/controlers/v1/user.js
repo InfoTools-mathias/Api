@@ -1,4 +1,3 @@
-const express = require("express");
 const User = require("../../models/v1/user");
 
 class UserController {
@@ -18,11 +17,6 @@ class UserController {
     }
 
     create(req, res) {
-        const user = req.user;
-        if(user.type > 2) {
-            return res.status(403).json({ error: true, message: "Forbiden" });
-        }
-
         const params = req.body;
 
         if(!(params.mail)) {
@@ -31,16 +25,21 @@ class UserController {
 
         User.findOne({ where: { mail: params.mail } })
         .then(async (user) => {
-            res.status(409).json({ error: true, message: 'User already exist' });
-        })
-        .catch(() => {
-            if(params.id !== undefined) {
-                delete params.id;
+            if(user === null) {
+                if(params.id !== undefined) {
+                    delete params.id;
+                }
+    
+                User.create(params)
+                .then(user => res.status(201).json(user))
+                .catch(err => res.status(500).json(err))
             }
-
-            User.create(params)
-            .then(user => res.status(201).json(user))
-            .catch(err => res.status(500).json(err))
+            else {
+                res.status(409).json({ error: true, message: 'User already exist' });
+            }
+        })
+        .catch((err) => {
+            res.status(500).json(err)
         })
 
     }
