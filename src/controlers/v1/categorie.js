@@ -73,7 +73,11 @@ class CategorieController {
         }
         
         const delCategorie = await Categorie.findByPk(parseInt(req.params.id));
-        await delCategorie.destroy();
+        if(delCategorie !== null) {
+            await delCategorie.destroy();
+            return res.status(204);
+        }
+        res.status(404);
     }
 
 }

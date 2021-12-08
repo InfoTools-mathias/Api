@@ -68,9 +68,17 @@ class ProductController {
     }
 
     async delete(req, res) {
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
+        
         const delProduct = await Product.findByPk(parseInt(req.params.id));
-        await delProduct.destroy();
-        return res.status(202);
+        if(delProduct !== null) {
+            await delProduct.destroy();
+            return res.status(204);
+        }
+        res.status(404);
     }
 
     update(req, res) {

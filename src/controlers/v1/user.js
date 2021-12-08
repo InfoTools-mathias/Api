@@ -86,8 +86,11 @@ class UserController {
         }
 
         const delUser = await User.findByPk(parseInt(req.params.id));
-        await delUser.destroy();
-        return res.status(202);
+        if(delUser !== null) {
+            await delUser.destroy();
+            return res.status(204);
+        }
+        res.status(404);
     }
 
     update(req, res) {
