@@ -4,12 +4,12 @@ const User = require('../models/v1/user');
 
 // base64 "ServerOauthV1:BtI0tDKEP3BOH9tA7BohXGXSzKC7Kvz00LZ2p6PZwqxXGKwjMO9W7SRM4bMbGfkQ"
 const SECRET_KEY = "U2VydmVyT2F1dGhWMTpCdEkwdERLRVAzQk9IOXRBN0JvaFhHWFN6S0M3S3Z6MDBMWjJwNlBad3F4WEdLd2pNTzlXN1NSTTRiTWJHZmtR";
-const RELOAD_KEY = "UCiOLZhnpObWBpJnySBl";
+//const RELOAD_KEY = "UCiOLZhnpObWBpJnySBl";
 
 async function middelware(req, res, next) {
     const token = String(req.headers['authorization']).split(' ');
     if(token.length === 0 || token[0] !== "Bearer") {
-        return res.status(403).json({ error: true, message: "A token is required for authentication" });
+        return res.status(403).json({ error: true, message: "A token is required" });
     }
 
     try {
