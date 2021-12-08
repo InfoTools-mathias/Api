@@ -13,7 +13,7 @@ class UserController {
             }
             return res.json(final);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     create(req, res) {
@@ -57,7 +57,6 @@ class UserController {
             })
         }
 
-        let final = [];
         User.findAll()
         .then(async users => {
             const data = JSON.parse(JSON.stringify(users));
@@ -76,7 +75,7 @@ class UserController {
             }
             return res.json(final);
         })
-        .catch(err => res.status(500).json(err))
+        .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     async delete(req, res) {

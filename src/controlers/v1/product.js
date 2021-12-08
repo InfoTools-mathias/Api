@@ -15,7 +15,7 @@ class ProductController {
             }
             return res.json(final);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     create(req, res) {
@@ -38,7 +38,7 @@ class ProductController {
             product = await parseProduct(product);
             res.status(201).json(product);
         })
-        .catch(err => res.status(500).json(err))
+        .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     show(req, res) {
@@ -64,7 +64,7 @@ class ProductController {
             }
             return res.json(final);
         })
-        .catch(err => res.status(500).json(err))
+        .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     async delete(req, res) {
@@ -72,7 +72,7 @@ class ProductController {
         if(user.type > 1) {
             return res.status(403).json({ error: true, message: "Forbiden" });
         }
-        
+
         const delProduct = await Product.findByPk(parseInt(req.params.id));
         if(delProduct !== null) {
             await delProduct.destroy();

@@ -5,7 +5,7 @@ class CategorieController {
     index(req, res) {
         Categorie.findAll()
         .then(categories => res.json(categories))
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     create(req, res) {
@@ -20,7 +20,7 @@ class CategorieController {
         }
         Categorie.create(req.body)
         .then(categorie => res.status(201).json(categorie))
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     show(req, res) {
@@ -43,7 +43,7 @@ class CategorieController {
             }
             res.json(result)
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     update(req, res) {
@@ -62,7 +62,7 @@ class CategorieController {
 
         Categorie.update(params, update)
             .then(() => res.status(200).json({ data: "sucess" }))
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json({ error: true, message: err }));
 
     }
 
