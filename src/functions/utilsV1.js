@@ -6,6 +6,9 @@ const { prodBaseURL } = require('../../config.json');
 
 function parseCat(id) {
     return new Promise((res) => {
+        if(id == null) {
+            return res(null);
+        }
         const ids = id.toString(2).split("").map(b => parseInt(b)).reverse();
         let index = 1;
         let result = [];
