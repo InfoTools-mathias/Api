@@ -24,7 +24,7 @@ async function middelware(req, res, next) {
 }
 
 async function login(req, res) {
-    const token = req.headers['authorization'].split(' ');
+    const token = String(req.headers['authorization']).split(' ');
     if(token.length === 0 || token[0] !== "Basic") {
         return res.status(400).json({ error: true, message: 'Please provide credential' });
     }
