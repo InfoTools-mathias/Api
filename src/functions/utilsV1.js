@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { writeFileSync } = require('fs');
 const { join } = require('path');
 
 const Categorie = require('../models/v1/categorie');
@@ -33,7 +33,7 @@ function parseCat(id) {
 
 function writeProductImage(imageData, imageName) {
     const bitmap = Buffer.from(imageData.replace('data:image/png;base64,', ''), 'base64');
-    fs.writeFileSync(join(__dirname, `../../assets/products/${imageName}`), bitmap);
+    writeFileSync(join(__dirname, `../../assets/products/${imageName}`), bitmap);
 }
 
 function parseProduct(data) {
