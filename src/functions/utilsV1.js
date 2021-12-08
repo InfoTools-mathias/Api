@@ -1,10 +1,10 @@
 const fs = require('fs');
 const { join } = require('path');
 
-const Product = require('../models/v1/product');
+//const Product = require('../models/v1/product');
 const Categorie = require('../models/v1/categorie');
 
-const BASE_URL = "http://172.31.247.13:5000";
+const { prodBaseURL } = require('../../config.json');
 
 function parseCat(id) {
     return new Promise((res) => {
@@ -39,7 +39,7 @@ function parseProduct(data) {
     return new Promise(async (res) => {
         const d = JSON.parse(JSON.stringify(data));
         d.type = await parseCat(d.type);
-        if(d.image !== null) d.image = `${BASE_URL}/img/products/${d.image}`;
+        if(d.image !== null) d.image = `${prodBaseURL}/img/products/${d.image}`;
 
         res(d);
     })
