@@ -19,6 +19,10 @@ class UserController {
     create(req, res) {
         const params = req.body;
 
+        if(!params) {
+            return res.status(400).json({ error: true, message: "Please give an request body" });
+        }
+
         if(!(params.mail)) {
             return res.status(400).json({ error: true, message: 'Please provide an email' });
         }
@@ -26,6 +30,7 @@ class UserController {
         User.findOne({ where: { mail: params.mail } })
         .then(async (user) => {
             if(user === null) {
+
                 if(params.id !== undefined) {
                     delete params.id;
                 }

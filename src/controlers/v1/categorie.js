@@ -15,9 +15,15 @@ class CategorieController {
         }
 
         const params = req.body;
+
+        if(!params) {
+            return res.status(400).json({ error: true, message: "Please give an request body" });
+        }
+
         if(params.id !== undefined) {
             delete params.id;
         }
+        
         Categorie.create(req.body)
         .then(categorie => res.status(201).json(categorie))
         .catch(err => res.status(500).json({ error: true, message: err }));

@@ -22,7 +22,7 @@ class ProductController {
         const params = req.body;
 
         if(!params) {
-            return res.status(400);
+            return res.status(400).json({ error: true, message: "Please give an request body" });
         }
 
         if(params.id !== undefined) {
@@ -48,11 +48,9 @@ class ProductController {
         Product.findAll()
         .then(async products => {
             const data = JSON.parse(JSON.stringify(products));
-            let final = [];
             for(const product of data) {
                 if(ids.includes(String(product.id))) {
                     product = await parseProduct(product);
-                    console.log(product);
                     final.push(product);
                 }
                 else {
