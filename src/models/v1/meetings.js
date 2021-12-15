@@ -16,22 +16,18 @@ Meeting.init(
         },
         target_user: {
             type: DataTypes.INTEGER,
-            allowNull: true,
             defaultValue: null
         },
         date: {
             type: DataTypes.DATE,
-            allowNull: true,
             defaultValue: null
         },
         postal_code: {
             type: DataTypes.INTEGER,
-            allowNull: true,
             defaultValue: null
         },
         adresse: {
             type: DataTypes.STRING,
-            allowNull: true,
             defaultValue: null
         }
     },
