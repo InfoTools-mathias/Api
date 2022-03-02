@@ -34,25 +34,20 @@ class UserController {
     }
 
     show(req, res) {
-        const token = req.user;
-
+        // const token = req.user;
 
         prisma.user.findUnique({
             where: { id: req.params.id }
         })
-            .then(user => {
-
-                if(user.type > 1 || token.user_id !== user.id) delete user.password;
-                res.status(201).json(user);
-            })
+            .then(user => res.status(201).json(user))
             .catch(err => res.status(500).json(err))
     }
 
     async delete(req, res) {
-        const user = req.user;
-        if(user.type > 2 || user.user_id != req.params.id) {
-            return res.status(403).json({ error: true, message: "Forbiden" });
-        }
+        // const user = req.user;
+        // if(user.type > 2 || user.user_id != req.params.id) {
+        //     return res.status(403).json({ error: true, message: "Forbiden" });
+        // }
 
         prisma.user.delete({
             where: { id: req.params.id }
@@ -62,17 +57,13 @@ class UserController {
     }
 
     update(req, res) {
-        const user = req.user;
-        if(user.type > 2 || user.user_id != req.params.id) {
-            return res.status(403).json({ error: true, message: "Forbiden" });
-        }
+        // const user = req.user;
+        // if(user.type > 2 || user.user_id != req.params.id) {
+        //     return res.status(403).json({ error: true, message: "Forbiden" });
+        // }
 
         const id = req.params.id;
         const params = req.body;
-        const update = {
-            where: { id: id },
-            limit: 1
-        }
 
         prisma.user.update({
             where: { id },

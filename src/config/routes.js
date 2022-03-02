@@ -16,9 +16,9 @@ class Routes {
         route.get('/', this.userController.index);
         route.post('/', this.userController.create);
 
-        route.get('/:id', middelware, this.userController.show);
+        route.get('/:id', this.userController.show);
         route.put('/:id', this.userController.update);
-        route.delete('/:id', middelware, this.userController.delete);
+        route.delete('/:id', this.userController.delete);
 
         return route;
     }
@@ -27,11 +27,11 @@ class Routes {
         const route = express.Router();
 
         route.get('/', this.categorieController.index);
-        route.post('/', middelware, this.categorieController.create);
+        route.post('/', this.categorieController.create);
 
         route.get('/:id', this.categorieController.show);
-        route.put('/:id', middelware, this.categorieController.update);
-        route.delete('/:id', middelware, this.categorieController.delete);
+        route.put('/:id', this.categorieController.update);
+        route.delete('/:id', this.categorieController.delete);
 
         return route;
     }
@@ -40,11 +40,11 @@ class Routes {
         const route = express.Router();
 
         route.get('/', this.productController.index);
-        route.post('/', middelware, this.productController.create);
+        route.post('/', this.productController.create);
 
         route.get('/:id', this.productController.show);
-        route.put('/:id', middelware, this.productController.update);
-        route.delete('/:id', middelware, this.productController.delete);
+        route.put('/:id', this.productController.update);
+        route.delete('/:id', this.productController.delete);
 
         return route;
     }

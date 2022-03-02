@@ -56,10 +56,10 @@ class ProductController {
     }
 
     async delete(req, res) {
-        const user = req.user;
-        if(user.type > 1) {
-            return res.status(403).json({ error: true, message: "Forbiden" });
-        }
+        // const user = req.user;
+        // if(user.type > 1) {
+        //     return res.status(403).json({ error: true, message: "Forbiden" });
+        // }
 
         prisma.product.delete({
             where: {
