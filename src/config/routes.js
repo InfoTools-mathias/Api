@@ -13,11 +13,11 @@ class Routes {
     userRouteV1() {
         const route = express.Router();
 
-        route.get('/', middelware, this.userController.index);
+        route.get('/', this.userController.index);
         route.post('/', this.userController.create);
 
         route.get('/:ids', middelware, this.userController.show);
-        route.put('/:id', middelware, this.userController.update);
+        route.put('/:id', this.userController.update);
         route.delete('/:id', middelware, this.userController.delete);
 
         return route;

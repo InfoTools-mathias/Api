@@ -13,8 +13,10 @@
   "author": "Hugo",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^3.10.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "prisma": "^3.10.0",
     "sequelize": "^6.9.0",
     "sqlite3": "^5.0.2"
   }

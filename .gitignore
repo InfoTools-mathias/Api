@@ -4,3 +4,7 @@ node_modules/
 # Ignore single files
 database.sqlite
 request.http
+
+# Ignore Prisma
+prisma/migrations
+prisma/dev.db

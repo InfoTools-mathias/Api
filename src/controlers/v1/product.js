@@ -1,21 +1,38 @@
 const Product = require("../../models/v1/product");
 const { parseProduct, writeProductImage } = require('../../functions/utilsV1');
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
+const include = {
+    categories: {
+        select: {
+            id: true,
+            name: true
+        }
+    }
+}
 
 class ProductController {
     
     index(req, res) {
-        Product.findAll()
-        .then(async products => {
-            const data = JSON.parse(JSON.stringify(products));
 
-            let final = [];
-            for(let product of data) {
-                product = await parseProduct(product);
-                final.push(product);
-            }
-            return res.json(final);
-        })
-        .catch(err => res.status(500).json({ error: true, message: err }));
+        prisma.product.findMany({ include })
+            .then(products => res.json(products))
+            .catch(err => res.status(500).json({ error: true, message: err }))
+        
+        //     Product.findAll()
+        // .then(async products => {
+        //     const data = JSON.parse(JSON.stringify(products));
+
+        //     let final = [];
+        //     for(let product of data) {
+        //         product = await parseProduct(product);
+        //         final.push(product);
+        //     }
+        //     return res.json(final);
+        // })
+        // .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     create(req, res) {
