@@ -1,6 +1,6 @@
 const { verify, sign } = require('jsonwebtoken');
-
-const User = require('../models/v1/user');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 // base64 "ServerOauthV1:BtI0tDKEP3BOH9tA7BohXGXSzKC7Kvz00LZ2p6PZwqxXGKwjMO9W7SRM4bMbGfkQ"
 const SECRET_KEY = "U2VydmVyT2F1dGhWMTpCdEkwdERLRVAzQk9IOXRBN0JvaFhHWFN6S0M3S3Z6MDBMWjJwNlBad3F4WEdLd2pNTzlXN1NSTTRiTWJHZmtR";
@@ -13,7 +13,11 @@ async function middelware(req, res, next) {
 
     try {
         const decoded = verify(token[1], SECRET_KEY);
-        req.user = decoded;
+        
+        const user = await prisma.user.findUnique({
+            where: { mail: decoded.user_id }
+        })
+        req.user = user;
     }
     catch(err) {
         return res.status(401).json({ error: true, message: "Invalid token" });
@@ -29,7 +33,10 @@ async function login(req, res) {
     }
     const data = atob(token[1]).split(':');
 
-    const user = await User.findOne({ where: { mail: data[0] } });
+    const user = await prisma.user.findUnique({
+        where: { mail: data[0] }
+    })
+
     if(user && (data[1] === user.password)) {
         const token = sign({ user_id: user.id, type: user.type }, SECRET_KEY, { expiresIn: "2h", });
         const decoded = verify(token, SECRET_KEY);
