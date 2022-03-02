@@ -2,7 +2,6 @@
 node_modules/
 
 # Ignore single files
-database.sqlite
 request.http
 
 # Ignore Prisma
