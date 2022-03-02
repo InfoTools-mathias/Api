@@ -4,11 +4,13 @@ const { middelware, login } = require('./middleware');
 const UserController = require('../controlers/user');
 const CategorieController = require('../controlers/categorie');
 const ProductController = require('../controlers/product');
+const MeetingController = require('../controlers/meeting');
 
 class Routes {
     userController = new UserController();
     categorieController = new CategorieController();
     productController = new ProductController();
+    meetingController = new MeetingController();
 
     userRouteV1() {
         const route = express.Router();
@@ -49,6 +51,19 @@ class Routes {
         return route;
     }
 
+    meetingRouteV1() {
+        const route = express.Router();
+
+        route.get('/', this.meetingController.index);
+        route.post('/', this.meetingController.create);
+
+        route.get('/:id', this.meetingController.show);
+        route.put('/:id', this.meetingController.update);
+        route.delete('/:id', this.meetingController.delete);
+
+        return route;
+    }
+
     oauthRouteV1() {
         const route = express.Router();
 
@@ -66,6 +81,7 @@ class Routes {
         app.use('/api/v1/users', this.userRouteV1());
         app.use('/api/v1/categories', this.categorieRouteV1());
         app.use('/api/v1/products', this.produitRouteV1());
+        app.use('/api/v1/meetings', this.meetingRouteV1());
     }
 }
 
