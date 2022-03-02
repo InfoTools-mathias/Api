@@ -72,7 +72,7 @@ class MeetingController {
             where: { id },
             data: params
         })
-            .then(meeting => res.status(200).json({ message: "sucess", meeting }))
+            .then(meeting => res.status(200).json(meeting))
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
 }

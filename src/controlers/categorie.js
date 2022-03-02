@@ -67,7 +67,7 @@ class CategorieController {
             where: { id },
             data: params
         })
-            .then(() => res.status(200).json({ data: "sucess" }))
+            .then(categorie => res.status(200).json(categorie))
             .catch((err) => res.status(500).json({ error: true, message: err }));
     }
 
@@ -81,7 +81,7 @@ class CategorieController {
             where: { id: req.params.id }
         })
             .then(() => res.status(204))
-            .catch(err => res.status(404).json({ message: err }))
+            .catch(err => res.status(404).json({ error: true, message: err }))
     }
 }
 
