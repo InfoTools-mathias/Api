@@ -11,41 +11,36 @@ datasource db {
 }
 
 model User {
-    id String @id @default(cuid())
-    name String?
-    surname String?
-    mail String? @unique
-    type Int @default(0)
+    id       String    @id @default(cuid())
+    name     String?
+    surname  String?
+    mail     String?   @unique
+    type     Int       @default(0)
     password String
-
-    // meetings Meeting[] @relation(fields: [id], references: [requestUserId, targetUserId])
+    meetings Meeting[]
 }
 
 model Categorie {
-    id String @id @default(cuid())
-    name String
+    id       String    @id @default(cuid())
+    name     String
     products Product[]
 }
 
 model Product {
-    id String @id @default(cuid())
-    name String
-    price Decimal
-    quantity Int
+    id          String  @id @default(cuid())
+    name        String
+    price       Decimal
+    quantity    Int
     description String?
-    image String?
+    image       String?
 
     categories Categorie[]
 }
 
-// model Meeting {
-//     id String @id @default(cuid())
-//     requestUserId String?
-//     targetUserId String?
-//     date DateTime?
-//     zip Int?
-//     adress String?
-
-//     requestUser User? @relation(fields: [id], references: [id])
-//     targetUser User? @relation(fields: [id], references: [id])
-// }
+model Meeting {
+    id     String    @id @default(cuid())
+    date   DateTime?
+    zip    Int?
+    adress String?
+    users  User[]
+}
