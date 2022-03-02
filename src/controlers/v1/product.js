@@ -1,9 +1,8 @@
-const Product = require("../../models/v1/product");
-const { parseProduct, writeProductImage } = require('../../functions/utilsV1');
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+// const { parseProduct, writeProductImage } = require('../../functions/utilsV1');
 const include = {
     categories: {
         select: {
@@ -16,23 +15,9 @@ const include = {
 class ProductController {
     
     index(req, res) {
-
         prisma.product.findMany({ include })
             .then(products => res.json(products))
             .catch(err => res.status(500).json({ error: true, message: err }))
-        
-        //     Product.findAll()
-        // .then(async products => {
-        //     const data = JSON.parse(JSON.stringify(products));
-
-        //     let final = [];
-        //     for(let product of data) {
-        //         product = await parseProduct(product);
-        //         final.push(product);
-        //     }
-        //     return res.json(final);
-        // })
-        // .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     create(req, res) {
@@ -46,40 +31,28 @@ class ProductController {
             delete params.id;
         }
 
-        if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
-            writeProductImage(req.headers['x-image-data'], params.image);
-        }
+        // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
+        //     writeProductImage(req.headers['x-image-data'], params.image);
+        // }
 
-        Product.create(params)
-        .then(async product => {
-            product = await parseProduct(product);
-            res.status(201).json(product);
+        prisma.product.create({
+            data: params,
+            include
         })
-        .catch(err => res.status(500).json({ error: true, message: err }))
+            .then(product => res.status(201).json(product))
+            .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     show(req, res) {
-        const ids = String(req.params.ids).split(',');
+        const id = req.params.id;
 
-        let final = [];
-        Product.findAll()
-        .then(async products => {
-            const data = JSON.parse(JSON.stringify(products));
-            for(const product of data) {
-                if(ids.includes(String(product.id))) {
-                    product = await parseProduct(product);
-                    final.push(product);
-                }
-                else {
-                    final.push({
-                        id: id,
-                        error: 'Product not found'
-                    })
-                }
-            }
-            return res.json(final);
+
+        prisma.product.findUnique({
+            where: { id },
+            include
         })
-        .catch(err => res.status(500).json({ error: true, message: err }))
+            .then(product => res.status(201).json(product))
+            .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     async delete(req, res) {
@@ -88,31 +61,29 @@ class ProductController {
             return res.status(403).json({ error: true, message: "Forbiden" });
         }
 
-        const delProduct = await Product.findByPk(parseInt(req.params.id));
-        if(delProduct !== null) {
-            await delProduct.destroy();
-            return res.status(204);
-        }
-        res.status(404);
+        prisma.product.delete({
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(() => res.status(204))
+            .catch(err => res.status(404))
     }
 
     update(req, res) {
         const id = req.params.id;
         const params = req.body;
-        const update = {
-            where: { id: id },
-            limit: 1
-        }
 
-        if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
-            writeProductImage(req.headers['x-image-data'], params.image);
-        }
+        // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
+        //     writeProductImage(req.headers['x-image-data'], params.image);
+        // }
 
-        Product.update(params, update)
-        .then(product => {
-            const data = JSON.parse(JSON.stringify(product));
-            res.status(201).json(data);
+        prisma.product.update({
+            where: { id },
+            data: params
         })
+            .then(() => res.status(200).json({ data: "sucess" }))
+            .catch((err) => res.status(500).json({ error: true, message: err }));
     }
 }
 

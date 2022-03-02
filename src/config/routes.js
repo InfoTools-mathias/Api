@@ -16,7 +16,7 @@ class Routes {
         route.get('/', this.userController.index);
         route.post('/', this.userController.create);
 
-        route.get('/:ids', middelware, this.userController.show);
+        route.get('/:id', middelware, this.userController.show);
         route.put('/:id', this.userController.update);
         route.delete('/:id', middelware, this.userController.delete);
 
@@ -42,7 +42,7 @@ class Routes {
         route.get('/', this.productController.index);
         route.post('/', middelware, this.productController.create);
 
-        route.get('/:ids', this.productController.show);
+        route.get('/:id', this.productController.show);
         route.put('/:id', middelware, this.productController.update);
         route.delete('/:id', middelware, this.productController.delete);
 
