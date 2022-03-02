@@ -1,9 +1,9 @@
 const express = require('express');
-const { middelware, login } = require('./middleware');
 
-const UserController = require('../controlers/v1/user');
-const CategorieController = require('../controlers/v1/categorie');
-const ProductController = require('../controlers/v1/product');
+const { middelware, login } = require('./middleware');
+const UserController = require('../controlers/user');
+const CategorieController = require('../controlers/categorie');
+const ProductController = require('../controlers/product');
 
 class Routes {
     userController = new UserController();
