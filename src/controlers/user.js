@@ -1,10 +1,18 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const select = {
+    id: true,
+    name: true,
+    surname: true,
+    mail: true,
+    type: true
+}
+
 class UserController {
     
     index(req, res) {
-        prisma.user.findMany({})
+        prisma.user.findMany({ select })
             .then(users => res.json(users))
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
@@ -36,9 +44,10 @@ class UserController {
         // const token = req.user;
 
         prisma.user.findUnique({
-            where: { id: req.params.id }
+            where: { id: req.params.id },
+            select
         })
-            .then(user => res.status(201).json(user))
+            .then(user => res.status(200).json(user))
             .catch(err => res.status(500).json(err))
     }
 
