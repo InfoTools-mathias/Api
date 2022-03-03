@@ -13,11 +13,7 @@ async function middelware(req, res, next) {
 
     try {
         const decoded = verify(token[1], SECRET_KEY);
-        
-        const user = await prisma.user.findUnique({
-            where: { mail: decoded.user_id }
-        })
-        req.user = user;
+        req.user = decoded;
     }
     catch(err) {
         return res.status(401).json({ error: true, message: "Invalid token" });
@@ -35,7 +31,7 @@ async function login(req, res) {
 
     const user = await prisma.user.findUnique({
         where: { mail: data[0] }
-    })
+    });
 
     if(user && (data[1] === user.password)) {
         const token = sign({ user_id: user.id, type: user.type }, SECRET_KEY, { expiresIn: "2h", });
@@ -47,12 +43,22 @@ async function login(req, res) {
             token: token,
             created_at: decoded.iat,
             expire_at: decoded.exp
-        })
+        });
     }
     return res.status(401).json({ error: true, message: "Invalid Credentials" });
 }
 
+async function getUserByToken(req, res) {
+    const userId = req.user.user_id;
+    const user = await prisma.user.findUnique({
+        where: { id: userId }
+    });
+
+    return res.status(200).json(user);
+}
+
 module.exports = {
+    getUserByToken,
     middelware,
     login
 }

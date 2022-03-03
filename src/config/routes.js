@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { middelware, login } = require('./middleware');
+const { middelware, login, getUserByToken } = require('./middleware');
 const UserController = require('../controlers/user');
 const CategorieController = require('../controlers/categorie');
 const ProductController = require('../controlers/product');
@@ -68,6 +68,7 @@ class Routes {
         const route = express.Router();
 
         route.post('/password', login);
+        route.get('/@me', middelware, getUserByToken);
 
         return route;
     }
