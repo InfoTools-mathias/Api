@@ -75,7 +75,7 @@ class Routes {
 
     routes(app) {
 
-        app.use('/img', express.static('assets'));
+        app.use('/img', express.static('assets/img'));
 
         //API V1
         app.use('/api/v1/oauth', this.oauthRouteV1());
