@@ -31,6 +31,17 @@ class ProductController {
             delete params.id;
         }
 
+        if(params.categories !== undefined) {
+            if(Array.isArray(params.categories)) {
+                params.categories.map(c => {
+                    return { id: c };
+                })
+            }
+            else delete params.categories;
+        }
+        else delete params.categories;
+        
+
         // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
         //     writeProductImage(req.headers['x-image-data'], params.image);
         // }
@@ -77,6 +88,16 @@ class ProductController {
         // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
         //     writeProductImage(req.headers['x-image-data'], params.image);
         // }
+
+        if(params.categories !== undefined) {
+            if(Array.isArray(params.categories)) {
+                params.categories.map(c => {
+                    return { id: c };
+                })
+            }
+            else delete params.categories;
+        }
+        else delete params.categories;
 
         prisma.product.update({
             where: { id },
