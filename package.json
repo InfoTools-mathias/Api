@@ -4,7 +4,9 @@
   "description": "API gérant la base de donnée du projet",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index"
+    "start": "node src/index",
+    "db": "npx prisma db push",
+    "studio": "npx prisma studio"
   },
   "repository": {
     "type": "git",
