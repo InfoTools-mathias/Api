@@ -15,7 +15,7 @@ model User {
     name     String?
     surname  String?
     mail     String?   @unique
-    type     Int       @default(0)
+    type     Int       @default(3)
     password String
     meetings Meeting[]
 }
