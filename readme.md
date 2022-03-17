@@ -33,6 +33,11 @@ Synchronisez la base de donnée:
 npm run db
 ```
 
+Démarrer Prisma Studio (modifier les données BDD depuis une interface web sur le port `5555`):
+```cmd
+npm run studio
+```
+
 Démarrez l'API !
 ```cmd
 npm start
@@ -41,7 +46,7 @@ npm start
 ## Routes
 Port: `5000`, route par défaut : `/api/v1`
 
-🔒 (L'endpoint nécessite un token de type **Bearer** dans l'Header **Authorization**)
+🔒 (L'endpoint nécessite un token de type **Bearer** dans l'header **Authorization** ex: `Bearer my-token`)
 
 ### Utilisateurs
 
@@ -64,7 +69,7 @@ Port: `5000`, route par défaut : `/api/v1`
 
 ### RDV
 
-`/meetings` GET, POST
+`/meetings` **GET**, **POST**
 
 `/meetings/{ID}` **GET**, **DELETE**, **PUT**
 
