@@ -31,7 +31,6 @@ class MeetingController {
 
         prisma.meeting.create({
             data: params,
-            include
         })
             .then(meeting => res.status(201).json(meeting))
             .catch(err => res.status(500).json({ error: true, message: err }))
