@@ -5,7 +5,7 @@ Bienvenue dans la documentation de l'API !
 Il existe deux branches dites "stables": [master](https://github.com/InfoTools-mathias/Api/tree/master) (version finale) et [dev](https://github.com/InfoTools-mathias/Api/tree/dev) (version beta)
 
 La version `beta` intègre des tests qui peuvent avoir des bugs.
-La `master a généralement moins de features mais aussi moins de bugs.
+La `master` a généralement moins de features mais aussi moins de bugs.
 
 ## Installation
 Veillez à avoir [NodeJS](https://nodejs.org/en/) d'installé.
