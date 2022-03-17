@@ -64,7 +64,7 @@ Port: `5000`, route par défaut : `/api/v1`
 
 `/categories` **GET**, **POST**
 
-`/categories/{ID}` **GET**, *DELETE*, **PUT**
+`/categories/{ID}` **GET**, **DELETE**, **PUT**
 
 
 ### RDV
