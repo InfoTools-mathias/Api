@@ -15,6 +15,5 @@ class App {
         this.app.use(express.json());
     }
 }
-// Comm
 
 module.exports = new App().app;
