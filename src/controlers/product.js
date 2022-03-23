@@ -57,13 +57,12 @@ class ProductController {
     show(req, res) {
         const id = req.params.id;
 
-
         prisma.product.findUnique({
             where: { id },
             include
         })
             .then(product => res.status(200).json(product))
-            .catch(err => res.status(500).json({ error: true, message: err }))
+            .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
     async delete(req, res) {

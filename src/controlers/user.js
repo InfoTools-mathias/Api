@@ -41,14 +41,14 @@ class UserController {
     }
 
     show(req, res) {
-        // const token = req.user;
+        const id = req.params.id;
 
         prisma.user.findUnique({
-            where: { id: req.params.id },
+            where: { id },
             select
         })
             .then(user => res.status(200).json(user))
-            .catch(err => res.status(500).json(err))
+            .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
     async delete(req, res) {
