@@ -7,6 +7,23 @@ const select = {
     surname: true,
     mail: true,
     type: true,
+    meetings: {
+        select: {
+            id: true,
+            date: true,
+            zip: true,
+            adress: true,
+            users: {
+                select: {
+                    id: true,
+                    name: true,
+                    surname: true,
+                    mail: true,
+                    type: true
+                }
+            }
+        }
+    },
     factures: {
         select: {
             id: true,
