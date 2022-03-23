@@ -37,13 +37,14 @@ class MeetingController {
     }
 
     show(req, res) {
+        const id = req.params.id;
 
-        prisma.product.findUnique({
-            where: { id: req.params.id },
+        prisma.meeting.findUnique({
+            where: { id },
             include
         })
             .then(meeting => res.status(200).json(meeting))
-            .catch(err => res.status(500).json({ error: true, message: err }))
+            .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
     async delete(req, res) {
