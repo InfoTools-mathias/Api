@@ -73,6 +73,22 @@ Port: `5000`, route par défaut : `/api/v1`
 
 `/meetings/{ID}` **GET**, **DELETE**, **PUT**
 
+
+### Factures
+
+Une facture est composée de lignes (liste). Une ligne est un objet contenant les information de l'article acheté, sa quantité et le prix unitaire.
+
+Il est important de créer la facture avant puis d'ajouter/créer des lignes après.
+
+`/factures` **GET**, **POST**
+
+`/factures/{ID}` **GET**, **DELETE**, **PUT**
+
+`/factures/{ID}/lignes` **POST** *créer une ligne (:warning: crer la facture avant !)*
+
+`/factures/{ID}/lignes/{LIGNE_ID}` **DELETE** (**PUT** actuellement non dev)
+
+
 ### Oauth
 
 `/oauth/password` **POST** Permet de créer un token si l'email + MDP sont OK
