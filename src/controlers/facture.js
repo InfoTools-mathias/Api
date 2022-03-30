@@ -22,7 +22,7 @@ class FactureController {
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
-    create(req, res) {
+    async create(req, res) {
         const params = req.body;
 
         if(params.id !== undefined) {
@@ -35,7 +35,7 @@ class FactureController {
             .then(fact => res.status(201).json(fact))
             .catch(err => res.status(500).json(err))
 
-        prisma.user.update({
+        await prisma.user.update({
             where: { clientId: params.clientId },
             data: {
                 type: 2
