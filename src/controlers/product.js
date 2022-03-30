@@ -49,7 +49,8 @@ class ProductController {
         // }
 
         prisma.product.create({
-            data: params
+            data: params,
+            include
         })
             .then(product => res.status(201).json(product))
             .catch(err => res.status(500).json({ error: true, message: err }))
@@ -82,7 +83,7 @@ class ProductController {
     }
 
     update(req, res) {
-        const id = req.params.id;
+        const { id } = req.params;
         const params = req.body;
 
         // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
@@ -91,13 +92,11 @@ class ProductController {
 
         if(params.categories !== undefined) {
             if(Array.isArray(params.categories)) {
-                params.categories.map(c => {
-                    const cats = params.categories.map(c => {
-                        return { id: c.id };
-                    });
-    
-                    params.categories = { "connect" : cats };
-                })
+                const cats = params.categories.map(c => {
+                    return { id: c.id };
+                });
+
+                params.categories = { connect: cats };
             }
             else delete params.categories;
         }
@@ -105,7 +104,8 @@ class ProductController {
 
         prisma.product.update({
             where: { id },
-            data: params
+            data: params,
+            include
         })
             .then(product => res.status(200).json(product))
             .catch((err) => res.status(500).json({ error: true, message: err }));
