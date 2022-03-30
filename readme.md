@@ -84,7 +84,7 @@ Il est important de créer la facture avant puis d'ajouter/créer des lignes apr
 
 `/factures/{ID}` **GET**, **DELETE**, **PUT**
 
-`/factures/{ID}/lignes` **POST** *créer une ligne (:warning: crer la facture avant !)*
+`/factures/{ID}/lignes` **POST** *créer une ligne (:warning: créer la facture avant !)*
 
 `/factures/{ID}/lignes/{LIGNE_ID}` **DELETE** (**PUT** actuellement non dev)
 
