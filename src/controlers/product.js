@@ -33,9 +33,11 @@ class ProductController {
 
         if(params.categories !== undefined) {
             if(Array.isArray(params.categories)) {
-                params.categories.map(c => {
-                    return { id: c };
-                })
+                const cats = params.categories.map(c => {
+                    return { id: c.id };
+                });
+
+                params.categories = { "connect" : cats };
             }
             else delete params.categories;
         }
@@ -47,8 +49,7 @@ class ProductController {
         // }
 
         prisma.product.create({
-            data: params,
-            include
+            data: params
         })
             .then(product => res.status(201).json(product))
             .catch(err => res.status(500).json({ error: true, message: err }))
@@ -91,7 +92,11 @@ class ProductController {
         if(params.categories !== undefined) {
             if(Array.isArray(params.categories)) {
                 params.categories.map(c => {
-                    return { id: c };
+                    const cats = params.categories.map(c => {
+                        return { id: c.id };
+                    });
+    
+                    params.categories = { "connect" : cats };
                 })
             }
             else delete params.categories;
