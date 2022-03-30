@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const select = {
+const include = {
     id: true,
     date: true,
     lignes : {
@@ -17,7 +17,7 @@ const select = {
 class FactureController {
 
     index(req, res) {
-        prisma.facture.findMany({ select })
+        prisma.facture.findMany({ include })
             .then(facts => res.json(facts))
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
@@ -71,7 +71,8 @@ class FactureController {
 
         prisma.facture.update({
             where: { id },
-            data: params
+            data: params,
+            include
         })
             .then(user => res.status(200).json(user))
             .catch(err => res.status(500).json({ error: true, message, err }))

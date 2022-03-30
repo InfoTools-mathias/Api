@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const select = {
+const include = {
     id: true,
     name: true,
     surname: true,
@@ -43,7 +43,7 @@ const select = {
 class UserController {
     
     index(req, res) {
-        prisma.user.findMany({ select })
+        prisma.user.findMany({ include })
             .then(users => res.json(users))
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
@@ -76,7 +76,7 @@ class UserController {
 
         prisma.user.findUnique({
             where: { id },
-            select
+            include
         })
             .then(user => res.status(200).json(user))
             .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
@@ -106,7 +106,8 @@ class UserController {
 
         prisma.user.update({
             where: { id },
-            data: params
+            data: params,
+            include
         })
             .then(user => res.status(200).json(user))
             .catch(err => res.status(500).json({ error: true, message, err }))
