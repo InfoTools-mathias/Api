@@ -34,6 +34,13 @@ class FactureController {
         })
             .then(fact => res.status(201).json(fact))
             .catch(err => res.status(500).json(err))
+
+        prisma.user.update({
+            where: { clientId: params.clientId },
+            data: {
+                type: 2
+            }
+        });
     }
 
     show(req, res) {
