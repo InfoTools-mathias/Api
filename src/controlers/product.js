@@ -31,6 +31,19 @@ class ProductController {
             delete params.id;
         }
 
+        if(params.categories !== undefined) {
+            if(Array.isArray(params.categories)) {
+                const cats = params.categories.map(c => {
+                    return { id: c.id };
+                });
+
+                params.categories = { "connect" : cats };
+            }
+            else delete params.categories;
+        }
+        else delete params.categories;
+        
+
         // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
         //     writeProductImage(req.headers['x-image-data'], params.image);
         // }
@@ -46,13 +59,12 @@ class ProductController {
     show(req, res) {
         const id = req.params.id;
 
-
         prisma.product.findUnique({
             where: { id },
             include
         })
             .then(product => res.status(200).json(product))
-            .catch(err => res.status(500).json({ error: true, message: err }))
+            .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
     async delete(req, res) {
@@ -71,16 +83,29 @@ class ProductController {
     }
 
     update(req, res) {
-        const id = req.params.id;
+        const { id } = req.params;
         const params = req.body;
 
         // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
         //     writeProductImage(req.headers['x-image-data'], params.image);
         // }
 
+        if(params.categories !== undefined) {
+            if(Array.isArray(params.categories)) {
+                const cats = params.categories.map(c => {
+                    return { id: c.id };
+                });
+
+                params.categories = { connect: cats };
+            }
+            else delete params.categories;
+        }
+        else delete params.categories;
+
         prisma.product.update({
             where: { id },
-            data: params
+            data: params,
+            include
         })
             .then(product => res.status(200).json(product))
             .catch((err) => res.status(500).json({ error: true, message: err }));

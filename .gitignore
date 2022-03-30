@@ -1,5 +1,6 @@
 # Ignore modules
 node_modules/
+package-lock.json
 
 # Ignore single files
 request.http

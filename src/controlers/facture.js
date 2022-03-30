@@ -3,82 +3,47 @@ const prisma = new PrismaClient();
 
 const include = {
     id: true,
-    name: true,
-    surname: true,
-    mail: true,
-    type: true,
-    meetings: {
+    date: true,
+    lignes : {
         select: {
             id: true,
-            date: true,
-            zip: true,
-            adress: true,
-            users: {
-                select: {
-                    id: true,
-                    name: true,
-                    surname: true,
-                    mail: true,
-                    type: true
-                }
-            }
-        }
-    },
-    factures: {
-        select: {
-            id: true,
-            date: true,
-            lignes : {
-                select: {
-                    id: true,
-                    product: true,
-                    quantity: true,
-                    price: true
-                }
-            }
+            product: true,
+            quantity: true,
+            price: true
         }
     }
 }
 
-class UserController {
-    
+class FactureController {
+
     index(req, res) {
-        prisma.user.findMany({ include })
-            .then(users => res.json(users))
+        prisma.facture.findMany({ include })
+            .then(facts => res.json(facts))
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
     create(req, res) {
         const params = req.body;
 
-        if(!params) {
-            return res.status(400).json({ error: true, message: "Please give an request body" });
-        }
-
-        if(!(params.mail)) {
-            return res.status(400).json({ error: true, message: 'Please provide an email' });
-        }
-
         if(params.id !== undefined) {
             delete params.id;
         }
 
-        prisma.user.create({
+        prisma.facture.create({
             data: params
         })
-            .then(user => res.status(201).json(user))
+            .then(fact => res.status(201).json(fact))
             .catch(err => res.status(500).json(err))
-
     }
 
     show(req, res) {
         const id = req.params.id;
 
-        prisma.user.findUnique({
+        prisma.facture.findUnique({
             where: { id },
-            include
+            select
         })
-            .then(user => res.status(200).json(user))
+            .then(fact => res.status(200).json(fact))
             .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
@@ -88,7 +53,7 @@ class UserController {
         //     return res.status(403).json({ error: true, message: "Forbiden" });
         // }
 
-        prisma.user.delete({
+        prisma.facture.delete({
             where: { id: req.params.id }
         })
             .then(() => res.status(204))
@@ -104,7 +69,7 @@ class UserController {
         const id = req.params.id;
         const params = req.body;
 
-        prisma.user.update({
+        prisma.facture.update({
             where: { id },
             data: params,
             include
@@ -112,6 +77,32 @@ class UserController {
             .then(user => res.status(200).json(user))
             .catch(err => res.status(500).json({ error: true, message, err }))
     }
+
+    createLigne(req, res) {
+        const facture = res.params.id;
+        const params = req.body;
+
+        if(params?.id !== undefined) delete params.id;
+        Object.defineProperty(params, 'factureId', { value: facture, enumerable: true, writable: true });
+
+        prisma.ligneFacture.create({ data: params })
+            .then(ligne => res.json(ligne))
+            .catch(() => res.status(500).json({ error: true, message: "Server error" }))
+    }
+
+    deleteLigne(req, res) {
+        const id = res.params.ligneId;
+        
+        prisma.ligneFacture.delete({
+            where: { id }
+        })
+            .then(() => res.status(204))
+            .catch(err => res.status(500).json(err))
+    }
+
+    editLigne(req, res) {
+        res.json({ error: true, message: "Not implemented" });
+    }
 }
 
-module.exports = UserController;
+module.exports = FactureController;

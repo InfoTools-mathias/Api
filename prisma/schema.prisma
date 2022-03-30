@@ -11,18 +11,21 @@ datasource db {
 }
 
 model User {
-    id       String    @id @default(cuid())
+    id       String  @id @default(cuid())
     name     String?
     surname  String?
-    mail     String?   @unique
-    type     Int       @default(0)
-    password String
+    mail     String? @unique
+    type     Int     @default(3)
+    password String?
+
     meetings Meeting[]
+    factures Facture[]
 }
 
 model Categorie {
-    id       String    @id @default(cuid())
-    name     String
+    id   String @id @default(cuid())
+    name String
+
     products Product[]
 }
 
@@ -42,5 +45,25 @@ model Meeting {
     date   DateTime?
     zip    Int?
     adress String?
-    users  User[]
+
+    users User[]
+}
+
+model Facture {
+    id          String       @id @default(cuid())
+    date        DateTime     @default(now())
+    lignes LigneFacture[]
+
+    client   User   @relation(fields: [clientId], references: [id])
+    clientId String
+}
+
+model LigneFacture {
+    id       String  @id @default(cuid())
+    product  String
+    quantity Int
+    price    Decimal
+
+    facture   Facture @relation(fields: [factureId], references: [id])
+    factureId String
 }

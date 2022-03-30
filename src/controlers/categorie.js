@@ -51,7 +51,7 @@ class CategorieController {
             include
         })
             .then(cat => res.json(cat))
-            .catch(err => res.status(500).json({ error: true, message: err }))
+            .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
     update(req, res) {

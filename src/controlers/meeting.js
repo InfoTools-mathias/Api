@@ -29,6 +29,18 @@ class MeetingController {
             return res.status(400).json({ error: true, message: "Please give an request body" });
         }
 
+        if(params.users !== undefined) {
+            if(Array.isArray(params.users)) {
+                const cats = params.users.map(c => {
+                    return { id: c.id };
+                });
+
+                params.users = { connect: cats };
+            }
+            else delete params.users;
+        }
+        else delete params.users;
+
         prisma.meeting.create({
             data: params,
             include
@@ -38,13 +50,14 @@ class MeetingController {
     }
 
     show(req, res) {
+        const id = req.params.id;
 
-        prisma.product.findUnique({
-            where: { id: req.params.id },
+        prisma.meeting.findUnique({
+            where: { id },
             include
         })
             .then(meeting => res.status(200).json(meeting))
-            .catch(err => res.status(500).json({ error: true, message: err }))
+            .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
     }
 
     async delete(req, res) {
@@ -68,9 +81,22 @@ class MeetingController {
         //     writeProductImage(req.headers['x-image-data'], params.image);
         // }
 
+        if(params.users !== undefined) {
+            if(Array.isArray(params.users)) {
+                const cats = params.users.map(c => {
+                    return { id: c.id };
+                });
+
+                params.users = { "connect" : cats };
+            }
+            else delete params.users;
+        }
+        else delete params.users;
+
         prisma.meeting.update({
             where: { id },
-            data: params
+            data: params,
+            include
         })
             .then(meeting => res.status(200).json(meeting))
             .catch(err => res.status(500).json({ error: true, message: err }));
