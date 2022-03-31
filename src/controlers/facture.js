@@ -9,6 +9,15 @@ const include = {
             quantity: true,
             price: true
         }
+    },
+    client: {
+        select: {
+            id: true,
+            name: true,
+            surname: true,
+            mail: true,
+            type: true
+        }
     }
 }
 
@@ -27,18 +36,41 @@ class FactureController {
             delete params.id;
         }
 
+        if(Array.isArray(params?.lignes)) {
+            const lignes = params.lignes.map(l => {
+                delete l?.id;
+                return l;
+            });
+
+            params.lignes = { create: lignes }
+        }
+        else delete params?.lignes;
+
+        console.log(params, params.lignes);
+
         prisma.facture.create({
-            data: params
+            data: params,
+            include
         })
-            .then(fact => res.status(201).json(fact))
+            .then(async fact => {
+
+                if(fact.client.type === 3) {
+                    await prisma.user.update({
+                        where: { id: params.clientId },
+                        data: {
+                            type: 2
+                        }
+                    });
+
+                    // Update for response
+                    fact.client.type = 2;
+                }
+
+
+                res.status(201).json(fact);
+            })
             .catch(err => res.status(500).json(err))
 
-        await prisma.user.update({
-            where: { clientId: params.clientId },
-            data: {
-                type: 2
-            }
-        });
     }
 
     show(req, res) {
@@ -46,7 +78,7 @@ class FactureController {
 
         prisma.facture.findUnique({
             where: { id },
-            select
+            include
         })
             .then(fact => res.status(200).json(fact))
             .catch(() => res.status(500).json({ error: true, message: `An error was occured` }))
