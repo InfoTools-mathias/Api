@@ -46,8 +46,6 @@ class FactureController {
         }
         else delete params?.lignes;
 
-        console.log(params, params.lignes);
-
         prisma.facture.create({
             data: params,
             include
