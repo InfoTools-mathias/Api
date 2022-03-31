@@ -2,11 +2,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const include = {
-    id: true,
-    name: true,
-    surname: true,
-    mail: true,
-    type: true,
     meetings: {
         select: {
             id: true,
