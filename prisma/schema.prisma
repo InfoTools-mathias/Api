@@ -54,7 +54,7 @@ model Facture {
     date        DateTime     @default(now())
     lignes LigneFacture[]
 
-    client   User   @relation(fields: [clientId], references: [id])
+    client   User   @relation(fields: [clientId], references: [id], onDelete: SetNull)
     clientId String
 }
 
@@ -64,6 +64,6 @@ model LigneFacture {
     quantity Int
     price    Decimal
 
-    facture   Facture @relation(fields: [factureId], references: [id])
+    facture   Facture @relation(fields: [factureId], references: [id], onDelete: Cascade)
     factureId String
 }
