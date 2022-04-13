@@ -33,6 +33,13 @@ async function login(req, res) {
         where: { mail: data[0] }
     });
 
+    if(user.type > 1) {
+        return res.status(401).json({
+            error: true,
+            message: 'Not Authorized'
+        });
+    }
+
     if(user && (data[1] === user.password)) {
         const token = sign({ user_id: user.id, type: user.type }, SECRET_KEY, { expiresIn: "2h", });
         const decoded = verify(token, SECRET_KEY);
