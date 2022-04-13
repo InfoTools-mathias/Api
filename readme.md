@@ -78,8 +78,6 @@ Port: `5000`, route par défaut : `/api/v1`
 
 Une facture est composée de lignes (liste). Une ligne est un objet contenant les information de l'article acheté, sa quantité et le prix unitaire.
 
-Il est important de créer la facture avant puis d'ajouter/créer des lignes après.
-
 `/factures` **GET**, **POST**
 
 `/factures/{ID}` **GET**, **DELETE**, **PUT**
