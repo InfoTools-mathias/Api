@@ -110,7 +110,7 @@ class FactureController {
             include
         })
             .then(user => res.status(200).json(user))
-            .catch(err => res.status(500).json({ error: true, message, err }))
+            .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     createLigne(req, res) {
