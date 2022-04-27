@@ -58,7 +58,17 @@ async function login(req, res) {
 async function getUserByToken(req, res) {
     const userId = req.user.user_id;
     const user = await prisma.user.findUnique({
-        where: { id: userId }
+        where: { id: userId },
+        select: {
+            id: true,
+            name: true,
+            surname: true,
+            mail: true,
+            type: true,
+            password: true,
+            factures: true,
+            meetings: true
+        }
     });
 
     return res.status(200).json(user);
