@@ -43,7 +43,7 @@ model Product {
 model Meeting {
     id     String    @id @default(cuid())
     date   DateTime?
-    zip    Int?
+    zip    String?
     adress String?
 
     users User[]
