@@ -31,20 +31,17 @@ class MeetingController {
 
         if(params.users !== undefined) {
             if(Array.isArray(params.users)) {
-                const cats = params.users.map(c => {
-                    return { id: c.id };
+                const users = params.users.map(u => {
+                    return { id: u.id };
                 });
 
-                params.users = { connect: cats };
+                params.users = { connect: users };
             }
             else delete params.users;
         }
         else delete params.users;
 
-        prisma.meeting.create({
-            data: params,
-            include
-        })
+        prisma.meeting.create({ data: params })
             .then(meeting => res.status(201).json(meeting))
             .catch(err => res.status(500).json({ error: true, message: err }))
     }
@@ -77,17 +74,13 @@ class MeetingController {
         const id = req.params.id;
         const params = req.body;
 
-        // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
-        //     writeProductImage(req.headers['x-image-data'], params.image);
-        // }
-
         if(params.users !== undefined) {
             if(Array.isArray(params.users)) {
-                const cats = params.users.map(c => {
-                    return { id: c.id };
+                const users = params.users.map(u => {
+                    return { id: u.id };
                 });
 
-                params.users = { "connect" : cats };
+                params.users = { "connect" : users };
             }
             else delete params.users;
         }
