@@ -84,7 +84,7 @@ class FactureController {
 
     async delete(req, res) {
         const user = req.user;
-        if(user.type > 2 || user.user_id != req.params.id) {
+        if(user.type > 2) {
             return res.status(403).json({ error: true, message: "Forbiden" });
         }
 
@@ -97,7 +97,7 @@ class FactureController {
 
     update(req, res) {
         const user = req.user;
-        if(user.type > 2 || user.user_id != req.params.id) {
+        if(user.type > 2) {
             return res.status(403).json({ error: true, message: "Forbiden" });
         }
 
@@ -118,7 +118,7 @@ class FactureController {
         const params = req.body;
 
         const user = req.user;
-        if(user.type > 2 || user.user_id != req.params.id) {
+        if(user.type > 2) {
             return res.status(403).json({ error: true, message: "Forbiden" });
         }
 
@@ -134,7 +134,7 @@ class FactureController {
         const id = res.params.ligneId;
 
         const user = req.user;
-        if(user.type > 2 || user.user_id != req.params.id) {
+        if(user.type > 2) {
             return res.status(403).json({ error: true, message: "Forbiden" });
         }
         
