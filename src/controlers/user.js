@@ -78,10 +78,10 @@ class UserController {
     }
 
     async delete(req, res) {
-        // const user = req.user;
-        // if(user.type > 2 || user.user_id != req.params.id) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 2 || user.user_id != req.params.id) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         prisma.user.delete({
             where: { id: req.params.id }
@@ -91,10 +91,10 @@ class UserController {
     }
 
     update(req, res) {
-        // const user = req.user;
-        // if(user.type > 2 || user.user_id != req.params.id) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 2 || user.user_id != req.params.id) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         const id = req.params.id;
         const params = req.body;

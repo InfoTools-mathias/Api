@@ -23,10 +23,10 @@ class CategorieController {
     }
 
     create(req, res) {
-        // const user = req.user;
-        // if(user.type > 1) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         const params = req.body;
 
@@ -55,10 +55,10 @@ class CategorieController {
     }
 
     update(req, res) {
-        // const user = req.user;
-        // if(user.type > 1) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         const id = req.params.id;
         const params = req.body;
@@ -72,10 +72,10 @@ class CategorieController {
     }
 
     async delete(req, res) {
-        // const user = req.user;
-        // if(user.type > 1) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
         
         prisma.categorie.delete({
             where: { id: req.params.id }
