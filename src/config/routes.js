@@ -18,12 +18,12 @@ class Routes {
     userRouteV1() {
         const route = express.Router();
 
-        route.get('/', this.userController.index);
-        route.post('/', this.userController.create);
+        route.get('/', middelware, this.userController.index);
+        route.post('/', middelware, this.userController.create);
 
-        route.get('/:id', this.userController.show);
-        route.put('/:id', this.userController.update);
-        route.delete('/:id', this.userController.delete);
+        route.get('/:id', middelware, this.userController.show);
+        route.put('/:id', middelware, this.userController.update);
+        route.delete('/:id', middelware, this.userController.delete);
 
         return route;
     }
@@ -32,11 +32,11 @@ class Routes {
         const route = express.Router();
 
         route.get('/', this.categorieController.index);
-        route.post('/', this.categorieController.create);
+        route.post('/', middelware, this.categorieController.create);
 
         route.get('/:id', this.categorieController.show);
-        route.put('/:id', this.categorieController.update);
-        route.delete('/:id', this.categorieController.delete);
+        route.put('/:id', middelware, this.categorieController.update);
+        route.delete('/:id', middelware, this.categorieController.delete);
 
         return route;
     }
@@ -45,11 +45,11 @@ class Routes {
         const route = express.Router();
 
         route.get('/', this.productController.index);
-        route.post('/', this.productController.create);
+        route.post('/', middelware, this.productController.create);
 
         route.get('/:id', this.productController.show);
-        route.put('/:id', this.productController.update);
-        route.delete('/:id', this.productController.delete);
+        route.put('/:id', middelware, this.productController.update);
+        route.delete('/:id', middelware, this.productController.delete);
 
         return route;
     }
@@ -57,12 +57,12 @@ class Routes {
     meetingRouteV1() {
         const route = express.Router();
 
-        route.get('/', this.meetingController.index);
-        route.post('/', this.meetingController.create);
+        route.get('/', middelware, this.meetingController.index);
+        route.post('/', middelware, this.meetingController.create);
 
-        route.get('/:id', this.meetingController.show);
-        route.put('/:id', this.meetingController.update);
-        route.delete('/:id', this.meetingController.delete);
+        route.get('/:id', middelware, this.meetingController.show);
+        route.put('/:id', middelware, this.meetingController.update);
+        route.delete('/:id', middelware, this.meetingController.delete);
 
         return route;
     }
@@ -70,16 +70,16 @@ class Routes {
     factureRouteV1() {
         const route = express.Router();
 
-        route.get('/', this.factureController.index);
-        route.post('/', this.factureController.create);
+        route.get('/', middelware, this.factureController.index);
+        route.post('/', middelware, this.factureController.create);
 
-        route.get('/:id', this.factureController.show);
-        route.put('/:id', this.factureController.update);
-        route.delete('/:id', this.factureController.delete);
+        route.get('/:id', middelware, this.factureController.show);
+        route.put('/:id', middelware, this.factureController.update);
+        route.delete('/:id', middelware, this.factureController.delete);
 
-        route.post('/:id/lignes', this.factureController.createLigne);
-        route.put('/:id/lignes/:ligneId', this.factureController.editLigne);
-        route.delete('/:id/lignes/:ligneId', this.factureController.deleteLigne);
+        route.post('/:id/lignes', middelware, this.factureController.createLigne);
+        route.put('/:id/lignes/:ligneId', middelware, this.factureController.editLigne);
+        route.delete('/:id/lignes/:ligneId', middelware, this.factureController.deleteLigne);
 
         return route;
     }
