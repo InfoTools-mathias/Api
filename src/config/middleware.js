@@ -33,7 +33,7 @@ async function login(req, res) {
         where: { mail: data[0] }
     });
 
-    if(user.type > 1) {
+    if(user?.type > 1) {
         return res.status(401).json({
             error: true,
             message: 'Not Authorized'
