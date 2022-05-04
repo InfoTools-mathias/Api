@@ -82,7 +82,7 @@ Une facture est composée de lignes (liste). Une ligne est un objet contenant le
 
 🔒`/factures/{ID}` **GET**, **DELETE**, **PUT**
 
-🔒`/factures/{ID}/lignes` **POST** *créer une ligne (:warning: créer la facture avant !)*
+🔒`/factures/{ID}/lignes` **POST**
 
 🔒`/factures/{ID}/lignes/{LIGNE_ID}` **DELETE** (**PUT** actuellement non dev)
 
