@@ -16,6 +16,7 @@ model User {
     surname  String?
     mail     String? @unique
     type     Int     @default(3)
+    salt     String?
     password String?
 
     meetings Meeting[]
@@ -50,8 +51,8 @@ model Meeting {
 }
 
 model Facture {
-    id          String       @id @default(cuid())
-    date        DateTime     @default(now())
+    id     String         @id @default(cuid())
+    date   DateTime       @default(now())
     lignes LigneFacture[]
 
     client   User   @relation(fields: [clientId], references: [id], onDelete: SetNull)
