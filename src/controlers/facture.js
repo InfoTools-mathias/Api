@@ -114,7 +114,7 @@ class FactureController {
     }
 
     createLigne(req, res) {
-        const facture = res.params.id;
+        const facture = req.params.id;
         const params = req.body;
 
         const user = req.user;
