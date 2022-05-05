@@ -1,13 +1,15 @@
-const { verify, sign } = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
+const { randomBytes, createHmac } = require("crypto");
+const { verify, sign } = require("jsonwebtoken");
+const { PrismaClient } = require("@prisma/client");
+
 const prisma = new PrismaClient();
 
 // base64 "ServerOauthV1:BtI0tDKEP3BOH9tA7BohXGXSzKC7Kvz00LZ2p6PZwqxXGKwjMO9W7SRM4bMbGfkQ"
 const SECRET_KEY = "U2VydmVyT2F1dGhWMTpCdEkwdERLRVAzQk9IOXRBN0JvaFhHWFN6S0M3S3Z6MDBMWjJwNlBad3F4WEdLd2pNTzlXN1NSTTRiTWJHZmtR";
 
 async function middelware(req, res, next) {
-    const token = String(req.headers['authorization']).split(' ');
-    if(token.length === 0 || token[0] !== "Bearer") {
+    const token = String(req.headers["authorization"]).split(" ");
+    if (token.length === 0 || token[0] !== "Bearer") {
         return res.status(403).json({ error: true, message: "A token is required" });
     }
 
@@ -23,25 +25,24 @@ async function middelware(req, res, next) {
 }
 
 async function login(req, res) {
-    const token = String(req.headers['authorization']).split(' ');
-    if(token.length === 0 || token[0] !== "Basic") {
-        return res.status(400).json({ error: true, message: 'Please provide credential' });
+    const token = String(req.headers["authorization"]).split(" ");
+    if (token.length === 0 || token[0] !== "Basic") {
+        return res.status(400).json({ error: true, message: "Please provide credential" });
     }
-    const data = atob(token[1]).split(':');
+    const data = atob(token[1]).split(":");
 
     const user = await prisma.user.findUnique({
         where: { mail: data[0] }
     });
 
-    if(user?.type > 1) {
-        return res.status(401).json({
-            error: true,
-            message: 'Not Authorized'
-        });
+    if (user?.type > 1) {
+        return res.status(401).json({ error: true, message: "Not Authorized" });
     }
 
-    if(user && (data[1] === user.password)) {
-        const token = sign({ user_id: user.id, type: user.type }, SECRET_KEY, { expiresIn: "2h", });
+    const password = await userSalt(data[1], user?.salt);
+
+    if (user && password.hash === user.password) {
+        const token = sign({ user_id: user.id, type: user.type }, SECRET_KEY, { expiresIn: "2h" });
         const decoded = verify(token, SECRET_KEY);
 
         return res.status(200).json({
@@ -53,6 +54,15 @@ async function login(req, res) {
         });
     }
     return res.status(401).json({ error: true, message: "Invalid Credentials" });
+}
+
+async function userSalt(password, testsalt) {
+    let salt = testsalt;
+    if(salt === undefined) {
+        salt = randomBytes(12).toString("hex");
+    }
+    const hash = createHmac("sha512", salt).update(password).digest("hex");
+    return { salt, hash };
 }
 
 async function getUserByToken(req, res) {
@@ -67,8 +77,8 @@ async function getUserByToken(req, res) {
             type: true,
             password: true,
             factures: true,
-            meetings: true
-        }
+            meetings: true,
+        },
     });
 
     return res.status(200).json(user);
@@ -77,5 +87,6 @@ async function getUserByToken(req, res) {
 module.exports = {
     getUserByToken,
     middelware,
-    login
-}
+    login,
+    userSalt
+};

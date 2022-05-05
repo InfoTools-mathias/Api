@@ -1,4 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
+const { userSalt } = require('../config/middleware');
+
 const prisma = new PrismaClient();
 
 const include = {
@@ -43,19 +45,25 @@ class UserController {
             .catch(err => res.status(500).json({ error: true, message: err }));
     }
 
-    create(req, res) {
+    async create(req, res) {
         const params = req.body;
 
         if(!params) {
             return res.status(400).json({ error: true, message: "Please give an request body" });
         }
 
-        if(!(params.mail)) {
+        if(!params.mail) {
             return res.status(400).json({ error: true, message: 'Please provide an email' });
         }
 
         if(params.id !== undefined) {
             delete params.id;
+        }
+
+        if(params.type <= 2) {
+            const userHash = await userSalt(params.password);
+            params.password = userHash.hash;
+            Object.defineProperty(params, 'salt', { value: userHash.salt, enumerable: true, writable: true });
         }
 
         prisma.user.create({
