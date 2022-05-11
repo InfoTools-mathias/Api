@@ -2,11 +2,11 @@ const express = require('express');
 
 const { middelware, login, getUserByToken } = require('./middleware');
 
-const UserController = require('../controlers/user');
-const CategorieController = require('../controlers/categorie');
-const ProductController = require('../controlers/product');
-const MeetingController = require('../controlers/meeting');
-const FactureController = require('../controlers/facture');
+const UserController = require('../controlers/User');
+const CategorieController = require('../controlers/Categorie');
+const ProductController = require('../controlers/Product');
+const MeetingController = require('../controlers/Meeting');
+const FactureController = require('../controlers/Facture');
 
 class Routes {
     userController = new UserController();
