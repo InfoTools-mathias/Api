@@ -146,7 +146,19 @@ class FactureController {
     }
 
     editLigne(req, res) {
-        res.json({ error: true, message: "Not implemented" });
+        const id = res.params.ligneId;
+
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
+        
+        prisma.ligneFacture.update({
+            where: { id },
+            data: req.body
+        })
+            .then(() => res.status(204))
+            .catch(err => res.status(500).json(err))
     }
 }
 
