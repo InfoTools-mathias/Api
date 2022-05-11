@@ -46,45 +46,45 @@ npm start
 ## Routes
 Port: `5000`, route par défaut : `/api/v1`
 
-🔒 (L'endpoint nécessite un token de type **Bearer** dans l'header **Authorization** ex: `Bearer my-token`)
+🔒 (L'endpoint nécessite un token de type **Bearer** dans l'header **Authorization** ex: `Bearer my-token`) (L'éxécution ou non de certaines tâches dépends aussi du `type` de l'utilisateur a qui appartient le token)
 
 ### Utilisateurs
 
-`/users` **GET**, **POST**
+🔒`/users` **GET**, **POST**
 
-`/users/{ID}` **GET**, **DELETE**, **PUT**
+🔒`/users/{ID}` **GET**, **DELETE**, **PUT**
 
 ### Produits
 
-`/products` **GET**, **POST**
+`/products` **GET**, 🔒**POST**
 
-`/products/{ID}` **GET**, **DELETE**, **PUT**
+`/products/{ID}` **GET**, 🔒**DELETE**, 🔒**PUT**
 
 ### Catégories
 
-`/categories` **GET**, **POST**
+`/categories` **GET**, 🔒**POST**
 
-`/categories/{ID}` **GET**, **DELETE**, **PUT**
+`/categories/{ID}` **GET**, 🔒**DELETE**, 🔒**PUT**
 
 
 ### RDV
 
-`/meetings` **GET**, **POST**
+🔒`/meetings` **GET**, **POST**
 
-`/meetings/{ID}` **GET**, **DELETE**, **PUT**
+🔒`/meetings/{ID}` **GET**, **DELETE**, **PUT**
 
 
 ### Factures
 
 Une facture est composée de lignes (liste). Une ligne est un objet contenant les information de l'article acheté, sa quantité et le prix unitaire.
 
-`/factures` **GET**, **POST**
+🔒`/factures` **GET**, **POST**
 
-`/factures/{ID}` **GET**, **DELETE**, **PUT**
+🔒`/factures/{ID}` **GET**, **DELETE**, **PUT**
 
-`/factures/{ID}/lignes` **POST** *créer une ligne (:warning: créer la facture avant !)*
+🔒`/factures/{ID}/lignes` **POST**
 
-`/factures/{ID}/lignes/{LIGNE_ID}` **DELETE** (**PUT** actuellement non dev)
+🔒`/factures/{ID}/lignes/{LIGNE_ID}` **DELETE** **PUT**
 
 
 ### Oauth

@@ -29,6 +29,11 @@ class MeetingController {
             return res.status(400).json({ error: true, message: "Please give an request body" });
         }
 
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
+
         if(params.users !== undefined) {
             if(Array.isArray(params.users)) {
                 const users = params.users.map(u => {
@@ -58,10 +63,10 @@ class MeetingController {
     }
 
     async delete(req, res) {
-        // const user = req.user;
-        // if(user.type > 2 || user.user_id != req.params.id) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         prisma.meeting.delete({
             where: { id: req.params.id }
@@ -73,6 +78,11 @@ class MeetingController {
     update(req, res) {
         const id = req.params.id;
         const params = req.body;
+
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         if(params.users !== undefined) {
             if(Array.isArray(params.users)) {
