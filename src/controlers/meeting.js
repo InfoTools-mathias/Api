@@ -29,6 +29,10 @@ class MeetingController {
             return res.status(400).json({ error: true, message: "Please give an request body" });
         }
 
+        if(params.id !== undefined) {
+            delete params.id;
+        }
+
         const user = req.user;
         if(user.type > 1) {
             return res.status(403).json({ error: true, message: "Forbiden" });
