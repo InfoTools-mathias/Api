@@ -19,7 +19,7 @@ class Routes {
         const route = express.Router();
 
         route.get('/', middelware, this.userController.index);
-        route.post('/', middelware, this.userController.create);
+        route.post('/', this.userController.create);
 
         route.get('/:id', middelware, this.userController.show);
         route.put('/:id', middelware, this.userController.update);
