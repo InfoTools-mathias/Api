@@ -29,22 +29,28 @@ class MeetingController {
             return res.status(400).json({ error: true, message: "Please give an request body" });
         }
 
+        if(params.id !== undefined) {
+            delete params.id;
+        }
+
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
+
         if(params.users !== undefined) {
             if(Array.isArray(params.users)) {
-                const cats = params.users.map(c => {
-                    return { id: c.id };
+                const users = params.users.map(u => {
+                    return { id: u.id };
                 });
 
-                params.users = { connect: cats };
+                params.users = { connect: users };
             }
             else delete params.users;
         }
         else delete params.users;
 
-        prisma.meeting.create({
-            data: params,
-            include
-        })
+        prisma.meeting.create({ data: params })
             .then(meeting => res.status(201).json(meeting))
             .catch(err => res.status(500).json({ error: true, message: err }))
     }
@@ -61,10 +67,10 @@ class MeetingController {
     }
 
     async delete(req, res) {
-        // const user = req.user;
-        // if(user.type > 2 || user.user_id != req.params.id) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         prisma.meeting.delete({
             where: { id: req.params.id }
@@ -77,17 +83,18 @@ class MeetingController {
         const id = req.params.id;
         const params = req.body;
 
-        // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
-        //     writeProductImage(req.headers['x-image-data'], params.image);
-        // }
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         if(params.users !== undefined) {
             if(Array.isArray(params.users)) {
-                const cats = params.users.map(c => {
-                    return { id: c.id };
+                const users = params.users.map(u => {
+                    return { id: u.id };
                 });
 
-                params.users = { "connect" : cats };
+                params.users = { "connect" : users };
             }
             else delete params.users;
         }

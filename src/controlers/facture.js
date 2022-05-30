@@ -83,10 +83,10 @@ class FactureController {
     }
 
     async delete(req, res) {
-        // const user = req.user;
-        // if(user.type > 2 || user.user_id != req.params.id) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         prisma.facture.delete({
             where: { id: req.params.id }
@@ -96,10 +96,10 @@ class FactureController {
     }
 
     update(req, res) {
-        // const user = req.user;
-        // if(user.type > 2 || user.user_id != req.params.id) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         const id = req.params.id;
         const params = req.body;
@@ -110,12 +110,17 @@ class FactureController {
             include
         })
             .then(user => res.status(200).json(user))
-            .catch(err => res.status(500).json({ error: true, message, err }))
+            .catch(err => res.status(500).json({ error: true, message: err }))
     }
 
     createLigne(req, res) {
-        const facture = res.params.id;
+        const facture = req.params.id;
         const params = req.body;
+
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         if(params?.id !== undefined) delete params.id;
         Object.defineProperty(params, 'factureId', { value: facture, enumerable: true, writable: true });
@@ -127,6 +132,11 @@ class FactureController {
 
     deleteLigne(req, res) {
         const id = res.params.ligneId;
+
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
         
         prisma.ligneFacture.delete({
             where: { id }
@@ -136,7 +146,19 @@ class FactureController {
     }
 
     editLigne(req, res) {
-        res.json({ error: true, message: "Not implemented" });
+        const id = res.params.ligneId;
+
+        const user = req.user;
+        if(user.type > 2) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
+        
+        prisma.ligneFacture.update({
+            where: { id },
+            data: req.body
+        })
+            .then(() => res.status(204))
+            .catch(err => res.status(500).json(err))
     }
 }
 

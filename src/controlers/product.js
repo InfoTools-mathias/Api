@@ -23,6 +23,11 @@ class ProductController {
     create(req, res) {
         const params = req.body;
 
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
+
         if(!params) {
             return res.status(400).json({ error: true, message: "Please give an request body" });
         }
@@ -68,10 +73,10 @@ class ProductController {
     }
 
     async delete(req, res) {
-        // const user = req.user;
-        // if(user.type > 1) {
-        //     return res.status(403).json({ error: true, message: "Forbiden" });
-        // }
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         prisma.product.delete({
             where: {
@@ -85,6 +90,11 @@ class ProductController {
     update(req, res) {
         const { id } = req.params;
         const params = req.body;
+
+        const user = req.user;
+        if(user.type > 1) {
+            return res.status(403).json({ error: true, message: "Forbiden" });
+        }
 
         // if(params.image !== undefined && req.headers['x-image-data'] !== undefined) {
         //     writeProductImage(req.headers['x-image-data'], params.image);
